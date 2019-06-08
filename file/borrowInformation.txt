@@ -1,0 +1,5 @@
+ReaderID:1 ReaderName:xiaoyou Time:2019-6-8 BookName:linux Status:0
+ReaderID:1 ReaderName:xiaoyou Time:2019-6-8 BookName:java Status:1
+ReaderID:1 ReaderName:xiaoyou Time:2019-6-8 BookName:linux Status:1
+ReaderID:1 ReaderName:xiaoyou Time:2019-6-8 BookName:UML Status:0
+ReaderID:1	ReaderName:xiaoyou	Time:2019-6-8	BookName:UML	Status:1
