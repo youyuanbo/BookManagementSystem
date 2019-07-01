@@ -8,11 +8,12 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <time.h>
+
 #include "GlobalFile.h"
 #include "Book.h"
 #include "Person.h"
 #include "BorrowInformation.h"
+#include "BookUtil.h"
 
 using namespace std;
 
@@ -22,13 +23,11 @@ public:
     Reader();
 
     //有参构造
-    Reader(int id, string name, string password);
+    Reader(string id, string name, string password);
 
     //菜单
     virtual void Menu();
 
-    //取得当前系统时间
-    string getTime();
 
     //借书
     void borrowBook();
@@ -40,7 +39,7 @@ public:
     void showOnBorrow();
 
     //查看已归还的图书
-    void showAllBorrowInf();
+    void showAllBorrowInfo();
 
     //还书
     void returnBook();
@@ -52,7 +51,7 @@ public:
     void showAllBook();
 
     //借书号
-    int id;
+    string id;
 
     //图书容器
     vector<Book> VCBook;

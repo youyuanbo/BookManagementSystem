@@ -15,6 +15,7 @@
 #include "Book.h"
 #include "Person.h"
 #include "GlobalFile.h"
+#include "BookUtil.h"
 using namespace std;
 
 class Manager : public Person{
@@ -44,16 +45,22 @@ public:
     void initVector();
 
     //检测读者是否重复
-    bool checkReaderRepeat(int id);
+//    bool checkReaderRepeat(int id);
 
     //检测读者是否重复
-    bool checkBookRepeat(int id);
+//    bool checkBookRepeat(int id);
 
     //删除图书
     void deleteBook();
 
     //查看所有的借阅信息
     void showAllBorrowInformation();
+
+    void findBookByName();
+
+    void sortBook();
+
+    void countAllBook();
 
     //属性：读者容器
     vector<Reader> VCReader;

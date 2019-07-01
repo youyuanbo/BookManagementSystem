@@ -7,5 +7,6 @@ add_executable(BookManagementSystem main.cpp
         cpp/Login.cpp
         cpp/Manager.cpp
         cpp/Reader.cpp
-        cpp/BorrowInformation.cpp)
+        cpp/BorrowInformation.cpp
+        cpp/BookUtil.cpp)
 

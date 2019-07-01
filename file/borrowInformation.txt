@@ -1,5 +1,3 @@
-ReaderID:1 ReaderName:xiaoyou Time:2019-6-8 BookName:linux Status:0
-ReaderID:1 ReaderName:xiaoyou Time:2019-6-8 BookName:java Status:1
-ReaderID:1 ReaderName:xiaoyou Time:2019-6-8 BookName:linux Status:1
-ReaderID:1 ReaderName:xiaoyou Time:2019-6-8 BookName:UML Status:0
-ReaderID:1	ReaderName:xiaoyou	Time:2019-6-8	BookName:UML	Status:1
+ReaderID:20197166674 ReaderName:xiaoyou Time:2019-7-1 BookName:java Status:1
+ReaderID:20197166674 ReaderName:xiaoyou Time:2019-7-1 BookName:python Status:0
+ReaderID:20197166674	ReaderName:xiaoyou	Time:2019-7-1	BookName:计算机操作系统	Status:1

@@ -10,7 +10,7 @@ using namespace std;
 class Book {
 public:
     //Í¼Êéid
-    int id;
+    string id;
 
     //Í¼ÊéÃû³Æ
     string bookName;

@@ -31,9 +31,12 @@ void Manager::Menu() {
     cout << "\t\t|         1.添加账号             |\n" << endl;
     cout << "\t\t|         2.查看账号             |\n" << endl;
     cout << "\t\t|         3.添加图书             |\n" << endl;
-    cout << "\t\t|         4.查看图书             |\n" << endl;
-    cout << "\t\t|         5.删除图书             |\n" << endl;
-    cout << "\t\t|         6.查看借阅信息          |\n" << endl;
+    cout << "\t\t|         4.查找图书             |\n" << endl;
+    cout << "\t\t|         5.查看所有图书          |\n" << endl;
+    cout << "\t\t|         6.删除图书             |\n" << endl;
+    cout << "\t\t|         7.查看借阅信息          |\n" << endl;
+    cout << "\t\t|         8.图书排序             |\n" << endl;
+    cout << "\t\t|         9.库存总量             |\n" << endl;
     cout << "\t\t|         0.注销登录             |\n" << endl;
     cout << "\t\t---------------------------------\n" << endl;
 }
@@ -55,7 +58,6 @@ void Manager::initVector() {
     while (readFile >> reader.id && readFile >> reader.name && readFile >> reader.password) {
         VCReader.push_back(reader);
     }
-    cout << "当前读者数量：" << VCReader.size() << endl;
     readFile.close();
 
 
@@ -68,7 +70,6 @@ void Manager::initVector() {
     while (readFile >> book.id && readFile >> book.bookName && readFile >> book.bookNum) {
         VCBook.push_back(book);
     }
-    cout << "当前图书数量：" << VCBook.size() << endl;
     readFile.close();
 }
 
@@ -77,25 +78,15 @@ void Manager::addReader() {
     string fileName;    //定义输出文件名称
     string errorIdTip;    //id有重复提示
     ofstream output;    //输出文件流对象
+    BookUtil bookUtil;
 
     fileName = READER_FILE;
     //利用追加的方式，写文件
     output.open(fileName, ios::out | ios::app);
     //定义属性
-    int id;
+    string id = bookUtil.getId();
     string name;
     string password;
-    cout << "请输入id: " << endl;
-    while (true) {
-        cin >> id;
-        bool result = this->checkReaderRepeat(id);
-        if (result) {    //有重复
-            cout << "读者id重复，请重新输入：" << endl;
-        } else {
-            //没有重复，直接退出
-            break;
-        }
-    }
 
     //输入姓名
     cout << "请输入姓名：" << endl;
@@ -116,7 +107,7 @@ void Manager::addReader() {
 
 //输出读者信息
 void printReader(Reader &reader) {
-    cout << "借书号: " << reader.id << "\t姓名：" << reader.name << "\t密码：" << reader.password << endl;
+    cout << "借书号: " << reader.id << "    姓名：" << reader.name << "    密码：" << reader.password << endl;
 }
 
 //查看读者信息
@@ -132,25 +123,15 @@ void Manager::showReader() {
 void Manager::addBook() {
     string fileName;    //定义输出文件名称
     ofstream output;    //输出文件流对象
+    BookUtil bookUtil;
 
     fileName = BOOK_FILE;
     //利用追加的方式，写文件
     output.open(fileName, ios::out | ios::app);
     //定义属性
-    int id;
+    string id = bookUtil.getId();
     string bookName;
     int bookNum;
-    cout << "请输入图书id: " << endl;
-    while (true) {
-        cin >> id;
-        bool result = this->checkBookRepeat(id);
-        if (result) {    //有重复
-            cout << "图书id重复，请重新输入：" << endl;
-        } else {
-            //没有重复，直接退出
-            break;
-        }
-    }
 
     //输入图书名称
     cout << "请输入图书名称：" << endl;
@@ -160,7 +141,7 @@ void Manager::addBook() {
     cin >> bookNum;
 
     //向文件中添加数据
-    output << id << " " << bookName << " " << bookNum << endl;
+    output << id << "\t" << bookName << "\t" << bookNum << endl;
     cout << "添加成功" << endl;
     system("pause");
     system("cls");
@@ -171,38 +152,14 @@ void Manager::addBook() {
 
 //输出图书信息
 void printBook(Book &book) {
-    cout << book.bookName << "\t\t" << book.bookNum << endl;
+    cout << "图书名称: " << book.bookName << "    图书数量: " << book.bookNum << endl;
 }
 
 //查看图书
 void Manager::showBooks() {
-    cout << "所有图书信息" << endl;
-    cout << "图书名称\t" << "图书数量\t" <<  endl;
     for_each(VCBook.begin(), VCBook.end(), printBook);
     system("pause");
     system("cls");
-}
-
-//检测读者id是否重复
-bool Manager::checkReaderRepeat(int id) {
-    //检测读者id是否重复
-    for (vector<Reader>::iterator readerBegin = VCReader.begin(); readerBegin != VCReader.end(); readerBegin++) {
-        if (id == readerBegin->id) {
-            return true;
-        }
-    }
-    return false;
-}
-
-//检测图书id是否重复
-bool Manager::checkBookRepeat(int id) {
-
-    for (vector<Book>::iterator bookBegin = VCBook.begin(); bookBegin != VCBook.end(); bookBegin++) {
-        if (id == bookBegin->id) {
-            return true;
-        }
-    }
-    return false;
 }
 
 //删除图书
@@ -210,12 +167,33 @@ void Manager::deleteBook() {
     string bookName;
     cout << "请输入要删除的图书名称：" << endl;
     cin >> bookName;
-    cout << "正在完善中，请等候" << endl;
+    int index = 0;
+    for (vector<Book>::iterator bookBegin = VCBook.begin(); bookBegin != VCBook.end(); bookBegin++) {
+        if (bookName == bookBegin->bookName) {
+            VCBook.erase(bookBegin);
+            cout << "删除成功" << endl;
+
+            ofstream write;
+            write.open(BOOK_FILE, ios::out | ios::trunc);
+
+            for (vector<Book>::iterator book = VCBook.begin(); book != VCBook.end(); book++) {
+                write << book->id << "\t" << book->bookName << "\t" << book->bookNum << endl;
+            }
+            write.close();
+            this->initVector();
+            system("pause");
+            system("cls");
+            return;
+        }
+        index++;
+    }
+    cout << "图书不存在" << endl;
     system("pause");
     system("cls");
     return;
 }
 
+//查看所有借阅信息
 void Manager::showAllBorrowInformation() {
     BorrowInformation borrowInformation;
     if (borrowInformation.totalBorrowSize == 0) {
@@ -225,12 +203,13 @@ void Manager::showAllBorrowInformation() {
         return;
     }
 
-    cout << "借书人姓名\t" << "图书名称\t" << "借阅时间\t" << "状态" << endl;
+
     for (int i = 0; i < borrowInformation.totalBorrowSize; i++) {
         int tempStatus = atoi(borrowInformation.borrowData[i]["Status"].c_str());
-        cout << borrowInformation.borrowData[i]["ReaderName"] << "\t\t";
-        cout << borrowInformation.borrowData[i]["BookName"] << "\t\t";
-        cout << borrowInformation.borrowData[i]["Time"] << "\t";
+        cout << "借书人姓名：" << borrowInformation.borrowData[i]["ReaderName"] << "  ";
+        cout << "图书名称：" << borrowInformation.borrowData[i]["BookName"] << "  ";
+        cout << "借阅时间：" << borrowInformation.borrowData[i]["Time"] << "  ";
+        cout << "状态：";
         if (tempStatus == 0) {
             cout << "已归还" << endl;
         } else {
@@ -242,5 +221,60 @@ void Manager::showAllBorrowInformation() {
     system("cls");
     return;
 }
+
+void Manager::findBookByName() {
+
+    string bookName;
+    cout << "请输入图书名称：" << endl;
+    cin >> bookName;
+    //检测是否存在此书以及图书余量
+    for (vector<Book>::iterator bookBegin = VCBook.begin(); bookBegin != VCBook.end(); bookBegin++) {
+        if ((bookBegin->bookName == bookName)) {
+            cout << "名称：" << bookBegin->bookName << "    ";
+            cout << "余量：" << bookBegin->bookNum << endl;
+            system("pause");
+            system("cls");
+            return;
+        }
+    }
+    cout << "你查询的书名是：" << bookName << "，该图书不存在" << endl;
+    system("pause");
+    system("cls");
+    return;
+
+}
+
+bool positiveBook(Book book1, Book book2) {
+
+    return book1.bookNum > book2.bookNum;
+
+}
+
+
+void Manager::sortBook() {
+    sort(VCBook.begin(), VCBook.end(), positiveBook);
+
+    for (vector<Book>::iterator bookBegin = VCBook.begin(); bookBegin != VCBook.end(); bookBegin++) {
+        cout << "名称：" << bookBegin->bookName << "    ";
+        cout << "余量：" << bookBegin->bookNum << endl;
+    }
+    system("pause");
+    system("cls");
+}
+
+void Manager::countAllBook() {
+
+    int bookNums = 0;
+
+    for (vector<Book>::iterator bookBegin = VCBook.begin(); bookBegin != VCBook.end(); bookBegin++) {
+        bookNums += bookBegin->bookNum;
+    }
+
+    cout << "图书库存总量：" << bookNums << endl;
+    system("pause");
+    system("cls");
+}
+
+
 
 

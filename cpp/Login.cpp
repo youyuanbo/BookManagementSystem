@@ -25,16 +25,10 @@ void Login::loginIn(string fileName, int type) {
     }
 
     //准备接收用户信息
-    int id = 0;
 
     string name;
 
     string password;
-
-    if (type == 1){
-        cout << "请输入你的借书证号：" << endl;
-        cin>>id;
-    }
 
     cout << "请输入你的姓名：" << endl;
     cin>>name;
@@ -44,16 +38,16 @@ void Login::loginIn(string fileName, int type) {
 
     if (type == 1){
         //读者身份验证
-        int fId;    //从文佳中读取的ID
+        string fId;    //从文佳中读取的ID
         string fName;   //从文件中读取的name
         string fPassword;   //从文件中读取的password
 
         while (readFile >> fId && readFile >> fName && readFile >> fPassword){
-            if(fId == id && fName == name && fPassword == password){
+            if( fName == name && fPassword == password){
                 cout << "读者登录验证成功。" << endl;
                 system("pause");
                 system("cls");
-                person = new Reader(id, name, password);
+                person = new Reader(fId,name, password);
                 //进入读者子菜单
                 this->readerMenu(person);
                 return;
@@ -95,29 +89,38 @@ void Login::managerMenu(Person *person) {
         Manager *manager = (Manager*) person;
 
         //定义用户选项
-        int select = 0;
+        char select = '0';
         cout << "请选择：" << endl;
         cin>>select;
         switch (select){
-            case 1: //添加读者
+            case '1': //添加读者
                 manager->addReader();
                 break;
-            case 2: //显示读者信息
+            case '2': //显示读者信息
                 manager->showReader();
                 break;
-            case 3: //添加图书
+            case '3': //添加图书
                 manager->addBook();
                 break;
-            case 4: //查看图书
+            case '4': //查找图书
+                manager->findBookByName();
+                break;
+            case '5': //查看所有图书
                 manager->showBooks();
                 break;
-            case 5: //删除图书
+            case '6': //删除图书
                 manager->deleteBook();
                 break;
-            case 6: //查看所有的借阅信息
+            case '7': //删除图书
                 manager->showAllBorrowInformation();
                 break;
-            case 0:
+            case '8': //排序
+                manager->sortBook();
+                break;
+            case '9': //库存总量
+                manager->countAllBook();
+                break;
+            case '0':
                 delete manager;
                 cout << "注销成功" << endl;
                 system("pause");
@@ -135,30 +138,30 @@ void Login::readerMenu(Person *person) {
     while (true){
         //调用读者子菜单
         person->Menu();
-        int select;
+        char select;
         cout << "请输入你的选择" << endl;
         cin>>select;
 
         switch (select){
-            case 1: //查看正在借阅的图书信息
+            case '1': //查看正在借阅的图书信息
                 reader->showOnBorrow();
                 break;
-            case 2: //借阅图书
+            case '2': //借阅图书
                 reader->borrowBook();
                 break;
-            case 3: //还书
+            case '3': //还书
                 reader->returnBook();
                 break;
-            case 4: //查询图书
+            case '4': //查询图书
                 reader->findBookByName();
                 break;
-            case 5: //查看所有图书
+            case '5': //查看所有图书
                 reader->showAllBook();
                 break;
-            case 6: //查看所有图书
-                reader->showAllBorrowInf();
+            case '6': //查看所有图书
+                reader->showAllBorrowInfo();
                 break;
-            case 0: //注销登录
+            case '0': //注销登录
                 delete person;
                 cout << "注销成功" << endl;
                 system("pause");
