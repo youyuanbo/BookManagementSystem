@@ -1,3 +1,2 @@
-ReaderID:20197166674 ReaderName:xiaoyou Time:2019-7-1 BookName:java Status:1
-ReaderID:20197166674 ReaderName:xiaoyou Time:2019-7-1 BookName:python Status:0
-ReaderID:20197166674	ReaderName:xiaoyou	Time:2019-7-1	BookName:计算机操作系统	Status:1
+ReaderID:20197372697 ReaderName:xiaoyou Time:2019-7-3 BookName:计算机算法 Status:0
+ReaderID:20197372697 ReaderName:xiaoyou Time:2019-7-3 BookName:计算机操作系统 Status:1

@@ -18,48 +18,46 @@ void Login::loginIn(string fileName, int type) {
     readFile.open(fileName, ios::in);
 
     //判断文件是否存在
-    if (!readFile.is_open()){
+    if (!readFile.is_open()) {
         cout << "文件不存在" << endl;
         readFile.close();
         return;
     }
 
     //准备接收用户信息
-
     string name;
-
     string password;
 
     cout << "请输入你的姓名：" << endl;
-    cin>>name;
+    cin >> name;
 
     cout << "请输入你的密码：" << endl;
-    cin>>password;
+    cin >> password;
 
-    if (type == 1){
+    if (type == 1) {
         //读者身份验证
         string fId;    //从文佳中读取的ID
         string fName;   //从文件中读取的name
         string fPassword;   //从文件中读取的password
 
-        while (readFile >> fId && readFile >> fName && readFile >> fPassword){
-            if( fName == name && fPassword == password){
+        while (readFile >> fId && readFile >> fName && readFile >> fPassword) {
+            if (fName == name && fPassword == password) {
                 cout << "读者登录验证成功。" << endl;
                 system("pause");
                 system("cls");
-                person = new Reader(fId,name, password);
+                person = new Reader(fId, name, password);
                 //进入读者子菜单
                 this->readerMenu(person);
                 return;
             }
         }
-    }  else if (type == 2){
+    } else if (type == 2) {
         //管理员身份验证
         string fName;   //从文件中读取的name
         string fPassword;   //从文件中读取的password
 
-        while (readFile >> fName && readFile >> fPassword){
-            if(fName == name && fPassword == password){
+        while (readFile >> fName && readFile >> fPassword) {
+            if (fName == name && fPassword == password) {
                 cout << "管理员登录验证成功。" << endl;
                 system("pause");
                 system("cls");
@@ -80,19 +78,19 @@ void Login::loginIn(string fileName, int type) {
 
 //进入管理员子菜单界面
 void Login::managerMenu(Person *person) {
-    while (true){
+    while (true) {
 
         //调用管理员子菜单
         person->Menu();
 
         //将父类指针转为子类指针
-        Manager *manager = (Manager*) person;
+        Manager *manager = (Manager *) person;
 
         //定义用户选项
         char select = '0';
         cout << "请选择：" << endl;
-        cin>>select;
-        switch (select){
+        cin >> select;
+        switch (select) {
             case '1': //添加读者
                 manager->addReader();
                 break;
@@ -135,14 +133,14 @@ void Login::managerMenu(Person *person) {
 //读者子菜单
 void Login::readerMenu(Person *person) {
     Reader *reader = (Reader *) person;
-    while (true){
+    while (true) {
         //调用读者子菜单
         person->Menu();
         char select;
         cout << "请输入你的选择" << endl;
-        cin>>select;
+        cin >> select;
 
-        switch (select){
+        switch (select) {
             case '1': //查看正在借阅的图书信息
                 reader->showOnBorrow();
                 break;

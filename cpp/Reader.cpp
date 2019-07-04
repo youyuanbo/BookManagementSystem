@@ -47,9 +47,13 @@ void Reader::Menu() {
 
 //借书
 void Reader::borrowBook() {
-    BorrowInformation borrowInformation;    //借阅记录信息类对象
+    //借阅记录信息类对象
+    BorrowInformation borrowInformation;
+    //图书工具类
     BookUtil bookUtil;
+    //图书名称
     string bookName;
+    //图书借阅状态
     string status = "1";
     int flag = 0;
     cout << "请输入图书名称" << endl;
@@ -74,6 +78,7 @@ void Reader::borrowBook() {
     //借阅图书，当存在此图书，并且余量大于0时，才可以借阅此图书
     for (vector<Book>::iterator bookBegin = VCBook.begin(); bookBegin != VCBook.end(); bookBegin++) {
         if ((bookBegin->bookName == bookName) && (bookBegin->bookNum > 0)) {
+            //向图书借阅记录文件写入相应的记录信息
             ofstream write;
             write.open(BORROW_INFORMATION_FILE, ios::app);
             write << "ReaderID:" << this->id << "\t";
@@ -85,11 +90,11 @@ void Reader::borrowBook() {
             //更改图书余量
             this->changeBookNum(bookName, 1);
 
-
             cout << "借书完成" << endl;
             flag = 1;
         }
     }
+    //图书不存在或余量为0,输入提示信息
     if (flag == 0) {
         cout << "此书不存在或者余量为0" << endl;
     }
@@ -157,7 +162,6 @@ void Reader::returnBook() {
     cout << "你没有借阅此书" << endl;
     system("pause");
     system("cls");
-    return;
 }
 
 //查看所有图书
@@ -211,7 +215,6 @@ void Reader::showAllBorrowInfo() {
         return;
     }
 
-    cout << "借书人姓名\t" << "图书名称\t" << "借阅时间\t" << "状态" << endl;
     for (int i = 0; i < borrowInformation.totalBorrowSize; i++) {
         string tempID = borrowInformation.borrowData[i]["ReaderID"];
         int tempStatus = atoi(borrowInformation.borrowData[i]["Status"].c_str());

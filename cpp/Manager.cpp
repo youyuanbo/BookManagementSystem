@@ -222,26 +222,30 @@ void Manager::showAllBorrowInformation() {
     return;
 }
 
+//查询图书
 void Manager::findBookByName() {
 
+    //图书名称
     string bookName;
     cout << "请输入图书名称：" << endl;
     cin >> bookName;
     //检测是否存在此书以及图书余量
     for (vector<Book>::iterator bookBegin = VCBook.begin(); bookBegin != VCBook.end(); bookBegin++) {
+        //是否存在图书
         if ((bookBegin->bookName == bookName)) {
+            //输出图书的详细信息
             cout << "名称：" << bookBegin->bookName << "    ";
             cout << "余量：" << bookBegin->bookNum << endl;
+            //结束程序
             system("pause");
             system("cls");
             return;
         }
     }
+    //没有找到此图书，输出提示
     cout << "你查询的书名是：" << bookName << "，该图书不存在" << endl;
     system("pause");
     system("cls");
-    return;
-
 }
 
 bool positiveBook(Book book1, Book book2) {

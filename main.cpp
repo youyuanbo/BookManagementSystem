@@ -14,7 +14,7 @@ int main() {
     while (true){
         cout<<"========欢迎来到图书管理系统=========="<<endl;
         cout<<"\t\t------------------------------\n"<<endl;
-        cout<<"\t\t|            1.学生            |\n"<<endl;
+        cout<<"\t\t|            1.读者            |\n"<<endl;
         cout<<"\t\t|            2.管理员          |\n"<<endl;
         cout<<"\t\t|            0.退出            |\n"<<endl;
         cout<<"\t\t------------------------------\n"<<endl;
